@@ -10,6 +10,7 @@ class EmitLog
         using(var connection = factory.CreateConnection())
         using(var channel = connection.CreateModel())
         {
+            //after establishing the connection we declared the exchange. This step is necessary as publishing to a non-existing exchange is forbidden.
             channel.ExchangeDeclare(exchange: "logs", type: ExchangeType.Fanout);
 
             var message = GetMessage(args);
