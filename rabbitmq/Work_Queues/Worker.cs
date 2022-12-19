@@ -12,11 +12,12 @@ class Worker
         using (var connection = factory.CreateConnection())
         using (var channel = connection.CreateModel())
         {
-            channel.QueueDeclare(queue: "hello",
-                                 durable: false,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: null);
+            //RabbitMQ doesn't allow you to redefine an existing queue with different parameters, so changed
+            channel.QueueDeclare(queue: "task_queue",
+                     durable: true,
+                     exclusive: false,
+                     autoDelete: false,
+                     arguments: null);
 
             var consumer = new EventingBasicConsumer(channel);
             consumer.Received += (model, ea) =>
@@ -35,7 +36,7 @@ class Worker
                 channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
 
             };
-            channel.BasicConsume(queue: "hello",
+            channel.BasicConsume(queue: "task_queue",
                                  autoAck: false,
                                  consumer: consumer);
 
