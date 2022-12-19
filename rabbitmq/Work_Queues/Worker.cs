@@ -18,6 +18,8 @@ class Worker
                      exclusive: false,
                      autoDelete: false,
                      arguments: null);
+            // tells RabbitMQ not to give more than one message to a worker at a time. 
+            channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
 
             var consumer = new EventingBasicConsumer(channel);
             consumer.Received += (model, ea) =>
