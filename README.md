@@ -16,3 +16,10 @@
 ### Message durability
 * Marking messages as persistent doesn't fully guarantee that a message won't be lost. Although it tells RabbitMQ to save the message to disk, there is still a short time window when RabbitMQ has accepted a message and hasn't saved it yet
 * good for simple task, **publisher confirms** is a stronger guarantee 
+### Fair Dispatch
+*  use the **BasicQos** method with the **prefetchCount = 1** setting.
+*  This tells RabbitMQ not to give more than one message to a worker at a time. Or, in other words, don't dispatch a new message to a worker until it has processed and acknowledged the previous one. Instead, it will dispatch it to the next worker that is not still busy.
+
+## Publish/Subscribe
+### Exchanges
+* Most of the time,  the producer can only send messages to an exchange. An exchange is a very simple thing. On one side it receives messages from producers and the other side it pushes them to queues. The exchange must know exactly what to do with a message it receives.
