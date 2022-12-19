@@ -23,3 +23,4 @@
 ## Publish/Subscribe
 ### Exchanges
 * Most of the time,  the producer can only send messages to an exchange. An exchange is a very simple thing. On one side it receives messages from producers and the other side it pushes them to queues. The exchange must know exactly what to do with a message it receives.
+* There are a few exchange types available: direct, topic, headers and fanout, **fanout** is focused here
