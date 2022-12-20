@@ -44,8 +44,8 @@
 * Messages sent to a topic exchange can't have an arbitrary routing_key - it must be a list of words, delimited by dots.usually they specify some features connected to the message. (ex:"stock.usd.nyse", "nyse.vmw", "quick.orange.rabbit".)
 * The binding key must also be in the same form
 #### special cases:
-* * (star) can substitute for exactly one word.
-* # (hash) can substitute for zero or more words.
+* \* (star) can substitute for exactly one word.
+* \# (hash) can substitute for zero or more words.
 * use case: send messages which  witha routing key that consists of three words **speed.colour.species**
   * Queue1 is bound with binding key "\*.orange.\*" and Q2 with "\*.\*.rabbit" and "lazy.#
     * Q1 is interested in all the orange animals.
