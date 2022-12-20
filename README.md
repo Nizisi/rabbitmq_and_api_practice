@@ -13,7 +13,6 @@
 * **Acknowledgement must be sent on the same channel that received the delivery. Attempts to acknowledge using a different channel will result in a channel-level protocol exception**
 ### Message durability
 * When RabbitMQ quits or crashes it will forget the queues and messages unless you tell it not to. Two things are required to make sure that messages aren't lost: we need to mark **both the queue and messages as durable**.
-### Message durability
 * Marking messages as persistent doesn't fully guarantee that a message won't be lost. Although it tells RabbitMQ to save the message to disk, there is still a short time window when RabbitMQ has accepted a message and hasn't saved it yet
 * good for simple task, **publisher confirms** is a stronger guarantee 
 ### Fair Dispatch
