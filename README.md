@@ -46,5 +46,5 @@
 #### special cases:
 * * (star) can substitute for exactly one word.
 * # (hash) can substitute for zero or more words.
-* use case: send messages which  witha routing key that consists of three words **<speed>.<colour>.<species>**
+* use case: send messages which  witha routing key that consists of three words <speed>.<colour>.<species>
 * 
