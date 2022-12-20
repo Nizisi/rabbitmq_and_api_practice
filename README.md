@@ -34,7 +34,17 @@
 ## Routing
 ### Direct exchange
 * The routing algorithm behind a direct exchange is simple - a message goes to the queues whose binding key (binding's routing key) exactly matches the routing key of the message.
+* it can't do routing based on multiple criteria.
 ### Multiple bindings
 * It is perfectly legal to bind multiple queues with the same binding key. It will be like fanout exchange
 ### Subscribing
 * create a new binding for each severity we're interested in. The other is the same as receiev message
+## Topics
+### Topic exchange
+* Messages sent to a topic exchange can't have an arbitrary routing_key - it must be a list of words, delimited by dots.usually they specify some features connected to the message. (ex:"stock.usd.nyse", "nyse.vmw", "quick.orange.rabbit".)
+* The binding key must also be in the same form
+#### special cases:
+* * (star) can substitute for exactly one word.
+* # (hash) can substitute for zero or more words.
+* use case: send messages which  witha routing key that consists of three words **<speed>.<colour>.<species>**
+* 
