@@ -26,3 +26,15 @@
 * There are a few exchange types available: direct, topic, headers and fanout, **fanout** is focused here
 ### Temporary queues
 * In the .NET client, when we supply no parameters to QueueDeclare() we create a non-durable, exclusive, autodelete queue with a generated name
+* whenever we connect to Rabbit we need a fresh, empty queue. To do this we could create a queue with a random name, or, even better - let the server choose a random queue name for us.
+* once we disconnect the consumer the queue should be automatically deleted
+### Bindings
+* The relationship between exchange and a queue that tell the exchange to send messages to our queue is called a binding.
+
+## Routing
+### Direct exchange
+* The routing algorithm behind a direct exchange is simple - a message goes to the queues whose binding key (binding's routing key) exactly matches the routing key of the message.
+### Multiple bindings
+* It is perfectly legal to bind multiple queues with the same binding key. It will be like fanout exchange
+### Subscribing
+* create a new binding for each severity we're interested in. The other is the same as receiev message
