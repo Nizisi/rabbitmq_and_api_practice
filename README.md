@@ -47,7 +47,7 @@
 * * (star) can substitute for exactly one word.
 * # (hash) can substitute for zero or more words.
 * use case: send messages which  witha routing key that consists of three words **speed.colour.species**
-  *Queue1 is bound with binding key "*.orange.*" and Q2 with "*.*.rabbit" and "lazy.#
+  * Queue1 is bound with binding key "*.orange.*" and Q2 with "*.*.rabbit" and "lazy.#
     * Q1 is interested in all the orange animals.
     * Q2 wants to hear everything about rabbits, and everything about lazy animals.
 * 
