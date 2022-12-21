@@ -51,3 +51,17 @@
     * Q2 wants to hear everything about rabbits, and everything about lazy animals.
 * Topic exchange can modify to fit the use of fanout and direct exchange
 ## Remote procedure call (RPC)
+* ued when we need to run a function on a remote computer and wait for the result
+* Call method which sends an RPC request and blocks until the answer is received
+### Important:
+  *  When in doubt avoid RPC. If you can, you should use an asynchronous pipeline - instead of RPC-like blocking, results are asynchronously pushed to a next computation stage.
+  *  thinkabout:
+     *  Make sure it's obvious which function call is local and which is remote.
+     *  Document your system. Make the dependencies between components clear.
+     *  Handle error cases. How should the client react when the RPC server is down for a long time?
+### Message properties
+* Persistent: Marks a message as persistent (with a value of true) or transient (any other value). 
+* DeliveryMode: those familiar with the protocol may choose to use this property instead of Persistent. They control the same thing.
+* ContentType: Used to describe the mime-type of the encoding. For example for the often used JSON encoding it is a good practice to set this property to: application/json.
+* ReplyTo: Commonly used to name a callback queue.
+* CorrelationId: Useful to correlate RPC responses with requests.
