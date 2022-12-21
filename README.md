@@ -81,8 +81,8 @@
 * On the client side, the RPC requires sending and receiving only one message. No synchronous calls like QueueDeclare are required. As a result the RPC client needs only one network round trip for a single RPC request.
 ## Publisher Confirms
 * a RabbitMQ extension to implement reliable publishing. When publisher confirms are enabled on a channel, messages the client publishes are confirmed asynchronously by the broker, meaning they have been taken care of on the server side.
-"""
+'''
 var channel = connection.CreateModel();
 channel.ConfirmSelect();
-"""
+'''
 * This method must be called on every channel that you expect to use publisher confirms. Confirms should be enabled just once, not for every message published.
