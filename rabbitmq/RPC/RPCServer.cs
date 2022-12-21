@@ -1,3 +1,10 @@
+"""
+    As usual we start by establishing the connection, channel and declaring the queue.
+    We might want to run more than one server process. In order to spread the load equally over multiple servers we need to set the prefetchCount setting in channel.BasicQos.
+    We use BasicConsume to access the queue. Then we register a delivery handler in which we do the work and send the response back.
+"""
+
+
 using System;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
