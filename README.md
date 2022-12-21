@@ -50,3 +50,4 @@
     * Q1 is interested in all the orange animals.
     * Q2 wants to hear everything about rabbits, and everything about lazy animals.
 * Topic exchange can modify to fit the use of fanout and direct exchange
+## Remote procedure call (RPC)
