@@ -65,3 +65,14 @@
 * ContentType: Used to describe the mime-type of the encoding. For example for the often used JSON encoding it is a good practice to set this property to: application/json.
 * ReplyTo: Commonly used to name a callback queue.
 * CorrelationId: Useful to correlate RPC responses with requests.
+### Correlation Id
+* set it to a unique value for every request. Later, when we receive a message in the callback queue we'll look at this property, and based on that we'll be able to match a response with a request.
+* No need to create callback queue for every RPC request!
+*  If we see an unknown CorrelationId value, we may safely discard the message
+   *  due to a possibility of a race condition on the server side
+### RPC work steps:
+* When the Client starts up, it creates an anonymous exclusive callback queue.
+* For an RPC request, the Client sends a message with two properties: **ReplyTo**, which is set to the callback queue and **CorrelationId**, which is set to a unique value for every request.
+* The request is sent to an rpc_queue queue.
+* The RPC worker (aka: server) is waiting for requests on that queue. When a request appears, it does the job and sends a message with the result back to the Client, using the queue from the ReplyTo property.
+* The client waits for data on the callback queue. When a message appears, it checks the CorrelationId property. If it matches the value from the request it returns the response to the application.
