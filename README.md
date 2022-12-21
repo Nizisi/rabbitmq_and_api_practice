@@ -76,3 +76,13 @@
 * The request is sent to an rpc_queue queue.
 * The RPC worker (aka: server) is waiting for requests on that queue. When a request appears, it does the job and sends a message with the result back to the Client, using the queue from the ReplyTo property.
 * The client waits for data on the callback queue. When a message appears, it checks the CorrelationId property. If it matches the value from the request it returns the response to the application.
+### side note:
+* If the RPC server is too slow, you can scale up by just running another one.
+* On the client side, the RPC requires sending and receiving only one message. No synchronous calls like QueueDeclare are required. As a result the RPC client needs only one network round trip for a single RPC request.
+## Publisher Confirms
+* a RabbitMQ extension to implement reliable publishing. When publisher confirms are enabled on a channel, messages the client publishes are confirmed asynchronously by the broker, meaning they have been taken care of on the server side.
+"""
+var channel = connection.CreateModel();
+channel.ConfirmSelect();
+"""
+* This method must be called on every channel that you expect to use publisher confirms. Confirms should be enabled just once, not for every message published.
