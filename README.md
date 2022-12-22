@@ -86,3 +86,36 @@ var channel = connection.CreateModel();
 channel.ConfirmSelect();
 ```
 * This method must be called on every channel that you expect to use publisher confirms. Confirms should be enabled just once, not for every message published.
+### Strategy #1: Publishing Messages Individually
+publishing messages individually, waiting for the confirmation synchronously: simple, but very limited throughput.
+### Strategy #2: Publishing Messages in Batches
+publishing messages in batch, waiting for the confirmation synchronously for a batch: simple, reasonable throughput, but hard to reason about when something goes wrong.
+### Strategy #3: Handling Publisher Confirms Asynchronously
+asynchronous handling: best performance and use of resources, good control in case of error, but can be involved to implement correctly.
+```
+var channel = connection.CreateModel();
+channel.ConfirmSelect();
+channel.BasicAcks += (sender, ea) =>
+{
+  // code when message is confirmed
+};
+channel.BasicNacks += (sender, ea) =>
+{
+  //code when message is nack-ed
+};
+```
+There are 2 callbacks: one for confirmed messages and one for nack-ed messages (messages that can be considered lost by the broker). Both callbacks have a corresponding EventArgs parameter **(ea)** containing a:
+* First ea: delivery tag: the sequence number identifying the confirmed or nack-ed message. We will see shortly how to correlate it with the published message.
+* second ea : multiple: this is a boolean value. If false, only one message is confirmed/nack-ed, if true, all messages with a lower or equal sequence number are confirmed/nack-ed.
+### Sequence number
+* The sequence number can be obtained with Channel#NextPublishSeqNo before publishing:
+```
+var sequenceNumber = channel.NextPublishSeqNo;
+channel.BasicPublish(exchange, queue, properties, body);
+```
+### handling publisher confirms asynchronously steps:
+* provide a way to correlate the publishing sequence number with a message.
+* register confirm listeners on the channel to be notified when publisher acks/nacks arrive to perform the appropriate actions, like logging or re-publishing a nack-ed message. The sequence-number-to-message correlation mechanism may also require some cleaning during this step.
+* track the publishing sequence number before publishing a message.
+### handle nack-ed message:
+* It can be tempting to re-publish a nack-ed message from the corresponding callback but this should be avoided
